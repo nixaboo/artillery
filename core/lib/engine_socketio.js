@@ -195,14 +195,16 @@ SocketIoEngine.prototype.step = function (requestSpec, ee) {
 
         // Acknowledge required so add callback to emit
         if (needEmit) {
-          socketio.emit(outgoing.channel, outgoing.data, ackCallback);
+          const splitData = outgoing.data.split('|'); //**** CHANGE
+          socketio.emit(outgoing.channel, ...splitData, ackCallback);
         } else {
           ackCallback();
         }
       } else {
         // No acknowledge data is expected, so emit without a listener
         if (needEmit) {
-          socketio.emit(outgoing.channel, outgoing.data);
+          const splitData = outgoing.data.split('|'); //**** CHANGE
+          socketio.emit(outgoing.channel, ...splitData);
         }
         markEndTime(ee, context, startedAt);
         return callback(null, context);
