@@ -232,7 +232,8 @@ SocketIoEngine.prototype.step = function (requestSpec, ee) {
         });
       });
       // Send the data on the specified socket.io channel
-      socketio.emit(outgoing.channel, outgoing.data);
+      const splitData = outgoing.data.split('|');
+      socketio.emit(outgoing.channel, ...splitData);
       // If we don't get a response within the timeout, fire an error
       let waitTime = self.config.timeout || 10;
       waitTime *= 1000;
